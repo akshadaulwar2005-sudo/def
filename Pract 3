@@ -1,0 +1,28 @@
+import pandas as pd
+
+df = pd.read_csv("facebook_metrics.csv")
+
+print("Original Data:\n", df.head())
+
+subset = df[['Page total likes', 'Type']]
+print("\nSubset:\n", subset.head())
+
+df2 = df[['Page total likes', 'Category']]
+
+merged = pd.merge(subset, df2, on='Page total likes')
+print("\nMerged Data:\n", merged.head())
+
+sorted_data = df.sort_values(by='Page total likes')
+print("\nSorted Data:\n", sorted_data.head())
+
+transposed = df.head().T
+print("\nTransposed Data:\n", transposed)
+
+print("\nShape of Data:", df.shape)
+
+import numpy as np
+
+arr = np.array(df['Page total likes'].head(6))
+reshaped = arr.reshape(2, 3)
+
+print("\nReshaped Data:\n", reshaped)
