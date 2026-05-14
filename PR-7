@@ -1,0 +1,138 @@
+### PR 7 Text Analytics
+
+# ============================================
+# Text Analytics Program
+# ============================================
+
+# Import Libraries
+import nltk
+import pandas as pd
+
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+from nltk import pos_tag
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# --------------------------------------------
+# Download Required NLTK Packages
+# --------------------------------------------
+
+
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('averaged_perceptron_tagger_eng')
+nltk.download('wordnet')
+
+# --------------------------------------------
+# Step 1: Sample Document
+# --------------------------------------------
+
+document = """
+Text analytics is the process of converting unstructured text
+into meaningful data for analysis. Natural Language Processing
+helps computers understand human language.
+"""
+
+print("Original Document:\n")
+print(document)
+
+# --------------------------------------------
+# Step 2: Tokenization
+# --------------------------------------------
+
+tokens = word_tokenize(document)
+
+print("\nTokens:\n")
+print(tokens)
+
+# --------------------------------------------
+# Step 3: POS Tagging
+# --------------------------------------------
+
+pos_tags = pos_tag(tokens)
+
+print("\nPOS Tagging:\n")
+print(pos_tags)
+
+# --------------------------------------------
+# Step 4: Stop Words Removal
+# --------------------------------------------
+
+stop_words = set(stopwords.words('english'))
+
+filtered_words = []
+
+for word in tokens:
+    if word.lower() not in stop_words:
+        filtered_words.append(word)
+
+print("\nAfter Stop Words Removal:\n")
+print(filtered_words)
+
+# --------------------------------------------
+# Step 5: Stemming
+# --------------------------------------------
+
+stemmer = PorterStemmer()
+
+stemmed_words = []
+
+for word in filtered_words:
+    stemmed_words.append(stemmer.stem(word))
+
+print("\nStemmed Words:\n")
+print(stemmed_words)
+
+# --------------------------------------------
+# Step 6: Lemmatization
+# --------------------------------------------
+
+lemmatizer = WordNetLemmatizer()
+
+lemmatized_words = []
+
+for word in filtered_words:
+    lemmatized_words.append(lemmatizer.lemmatize(word))
+
+print("\nLemmatized Words:\n")
+print(lemmatized_words)
+
+# --------------------------------------------
+# Step 7: Term Frequency (TF)
+# --------------------------------------------
+
+documents = [document]
+
+cv = CountVectorizer()
+
+tf_matrix = cv.fit_transform(documents)
+
+tf_df = pd.DataFrame(
+    tf_matrix.toarray(),
+    columns=cv.get_feature_names_out()
+)
+
+print("\nTerm Frequency Matrix:\n")
+print(tf_df)
+
+# --------------------------------------------
+# Step 8: TF-IDF Representation
+# --------------------------------------------
+
+tfidf = TfidfVectorizer()
+
+tfidf_matrix = tfidf.fit_transform(documents)
+
+tfidf_df = pd.DataFrame(
+    tfidf_matrix.toarray(),
+    columns=tfidf.get_feature_names_out()
+)
+
+print("\nTF-IDF Matrix:\n")
+print(tfidf_df)
