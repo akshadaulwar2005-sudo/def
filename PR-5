@@ -1,0 +1,140 @@
+###### PR 5 Data Analytics II 
+
+# ============================================
+# Logistic Regression Classification
+# Social_Network_Ads Dataset
+# ============================================
+
+# Import Libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+
+# --------------------------------------------
+# Step 1: Load Dataset
+# --------------------------------------------
+
+dataset = pd.read_csv("Social_Network_Ads.csv")
+
+print("First 5 Rows of Dataset:")
+print(dataset.head())
+
+# --------------------------------------------
+# Step 2: Select Features and Target
+# --------------------------------------------
+
+# Independent Variables
+X = dataset[['Age', 'EstimatedSalary']]
+
+# Dependent Variable
+y = dataset['Purchased']
+
+# --------------------------------------------
+# Step 3: Split Dataset
+# --------------------------------------------
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.25,
+    random_state=0
+)
+
+# --------------------------------------------
+# Step 4: Feature Scaling
+# --------------------------------------------
+
+sc = StandardScaler()
+
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+# --------------------------------------------
+# Step 5: Train Logistic Regression Model
+# --------------------------------------------
+
+classifier = LogisticRegression(random_state=0)
+
+classifier.fit(X_train, y_train)
+
+# --------------------------------------------
+# Step 6: Predict Test Results
+# --------------------------------------------
+
+y_pred = classifier.predict(X_test)
+
+print("\nPredicted Values:")
+print(y_pred)
+
+# --------------------------------------------
+# Step 7: Confusion Matrix
+# --------------------------------------------
+
+cm = confusion_matrix(y_test, y_pred)
+
+print("\nConfusion Matrix:")
+print(cm)
+
+# Extract Values
+TN = cm[0][0]
+FP = cm[0][1]
+FN = cm[1][0]
+TP = cm[1][1]
+
+print("\nTrue Positive (TP):", TP)
+print("False Positive (FP):", FP)
+print("True Negative (TN):", TN)
+print("False Negative (FN):", FN)
+
+# --------------------------------------------
+# Step 8: Calculate Metrics
+# --------------------------------------------
+
+accuracy = accuracy_score(y_test, y_pred)
+
+error_rate = 1 - accuracy
+
+precision = precision_score(y_test, y_pred, zero_division=0)
+
+recall = recall_score(y_test, y_pred, zero_division=0)
+
+print("\nPerformance Metrics")
+print("---------------------")
+
+print("Accuracy      :", accuracy)
+print("Error Rate    :", error_rate)
+print("Precision     :", precision)
+print("Recall        :", recall)
+
+# --------------------------------------------
+# Step 9: Compare Actual vs Predicted
+# --------------------------------------------
+
+comparison = pd.DataFrame({
+    'Actual': y_test.values,
+    'Predicted': y_pred
+})
+
+print("\nActual vs Predicted:")
+print(comparison)
+
+# --------------------------------------------
+# Step 10: Simple Visualization
+# --------------------------------------------
+
+plt.scatter(X_test[:, 0], X_test[:, 1], c=y_pred)
+
+plt.title("Logistic Regression Classification")
+
+plt.xlabel("Age")
+plt.ylabel("Estimated Salary")
+
+plt.show()
