@@ -1,0 +1,91 @@
+ ########## PR 1  Data Wrangling, I 
+
+# ============================================
+# 1. Import Required Python Libraries
+# ============================================
+
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+
+# ============================================
+# 2. Load Dataset into Pandas DataFrame
+# ============================================
+
+# Load dataset
+df = pd.read_csv("data1.csv")
+
+# Display first 5 rows
+print("First 5 Rows of Dataset")
+print(df.head())
+
+# ============================================
+# 3. Check Dataset Information
+# ============================================
+
+print("\nDataset Information")
+print(df.info())
+
+# Dimensions of dataset
+print("\nShape of Dataset:")
+print(df.shape)
+
+# ============================================
+# 4. Data Preprocessing
+# ============================================
+
+# Check missing values
+print("\nMissing Values")
+print(df.isnull().sum())
+
+# Statistical summary
+print("\nStatistical Summary")
+print(df.describe())
+
+# Variable descriptions and data types
+print("\nData Types of Variables")
+print(df.dtypes)
+
+# ============================================
+# 5. Data Formatting and Type Conversion
+# ============================================
+
+# Convert Age column to float if required
+df['Age'] = df['Age'].astype(float)
+
+# Convert Fare column to float
+df['Fare'] = df['Fare'].astype(float)
+
+print("\nUpdated Data Types")
+print(df.dtypes)
+
+# ============================================
+# 6. Data Normalization
+# ============================================
+
+# Normalize numerical columns
+scaler = MinMaxScaler()
+
+df[['Age', 'Fare']] = scaler.fit_transform(df[['Age', 'Fare']])
+
+print("\nNormalized Data")
+print(df[['Age', 'Fare']].head())
+
+# ============================================
+# 7. Convert Categorical Variables
+# ============================================
+
+# Convert Gender column into numeric values
+label_encoder = LabelEncoder()
+
+df['Sex'] = label_encoder.fit_transform(df['Sex'])
+
+print("\nCategorical Variable Converted")
+print(df[['Sex']].head())
+
+# ============================================
+# 8. Final Processed Dataset
+# ============================================
+
+print("\nFinal Processed Dataset")
+print(df.head())
