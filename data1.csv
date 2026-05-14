@@ -1,0 +1,11 @@
+PassengerId,Survived,Pclass,Name,Sex,Age,Fare
+1,0,3,Akshad Aulwar,male,22,7.25
+2,1,1,Aditi More,female,38,71.2833
+3,1,3,Mrunal Mane,female,26,7.925
+4,1,1,Shravani Borate,female,35,53.1
+5,0,3,Raj Pande,male,35,8.05
+6,0,3,Satyam Patil,male,,8.4583
+7,0,1,Jay Mane,male,54,51.8625
+8,1,3,Shreeram mane,male,2,21.075
+9,1,2,Rajnandini Pande,female,27,11.1333
+10,0,3,Rajashree Gurav,female,14,30.0708
