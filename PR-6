@@ -1,0 +1,135 @@
+########### PR 6 Data Analytics III
+
+# ============================================
+# Naive Bayes Classification on Iris Dataset
+# ============================================
+
+# Import Libraries
+import pandas as pd
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+
+# --------------------------------------------
+# Step 1: Load Dataset
+# --------------------------------------------
+
+dataset = pd.read_csv("iris_6.csv")
+
+print("First 5 Rows:")
+print(dataset.head())
+
+# --------------------------------------------
+# Step 2: Features and Target
+# --------------------------------------------
+
+X = dataset.iloc[:, 0:4]
+
+y = dataset.iloc[:, 4]
+
+# --------------------------------------------
+# Step 3: Split Dataset
+# --------------------------------------------
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.25,
+    random_state=0
+)
+
+# --------------------------------------------
+# Step 4: Train Naive Bayes Model
+# --------------------------------------------
+
+classifier = GaussianNB()
+
+classifier.fit(X_train, y_train)
+
+# --------------------------------------------
+# Step 5: Prediction
+# --------------------------------------------
+
+y_pred = classifier.predict(X_test)
+
+print("\nPredicted Values:")
+print(y_pred)
+
+# --------------------------------------------
+# Step 6: Confusion Matrix
+# --------------------------------------------
+
+cm = confusion_matrix(
+    y_test,
+    y_pred,
+    labels=['setosa', 'versicolor', 'virginica']
+)
+
+print("\nConfusion Matrix:")
+print(cm)
+
+# --------------------------------------------
+# Step 7: Calculate TP, FP, TN, FN
+# --------------------------------------------
+
+# For binary-style calculation using first class
+
+TN = cm[0][0]
+
+FP = cm[0][1] if cm.shape[1] > 1 else 0
+
+FN = cm[1][0] if cm.shape[0] > 1 else 0
+
+TP = cm[1][1] if cm.shape[0] > 1 and cm.shape[1] > 1 else 0
+
+print("\nTrue Positive (TP):", TP)
+print("False Positive (FP):", FP)
+print("True Negative (TN):", TN)
+print("False Negative (FN):", FN)
+
+# --------------------------------------------
+# Step 8: Performance Metrics
+# --------------------------------------------
+
+accuracy = accuracy_score(y_test, y_pred)
+
+error_rate = 1 - accuracy
+
+precision = precision_score(
+    y_test,
+    y_pred,
+    average='macro',
+    zero_division=0
+)
+
+recall = recall_score(
+    y_test,
+    y_pred,
+    average='macro',
+    zero_division=0
+)
+
+print("\nPerformance Metrics")
+print("-----------------------")
+
+print("Accuracy    :", accuracy)
+print("Error Rate  :", error_rate)
+print("Precision   :", precision)
+print("Recall      :", recall)
+
+# --------------------------------------------
+# Step 9: Actual vs Predicted
+# --------------------------------------------
+
+comparison = pd.DataFrame({
+    'Actual': y_test.values,
+    'Predicted': y_pred
+})
+
+print("\nActual vs Predicted:")
+print(comparison)
