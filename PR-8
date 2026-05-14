@@ -1,0 +1,36 @@
+
+###########PR 8 Data Visualization I
+
+# Import required libraries
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Load the inbuilt Titanic dataset
+titanic = sns.load_dataset('titanic')
+
+# Display first 5 rows
+print(titanic.head())
+
+# Display dataset information
+print("\nDataset Information:")
+print(titanic.info())
+
+# Plot histogram for Fare distribution
+plt.figure(figsize=(10,6))
+
+sns.histplot(
+    data=titanic,
+    x='fare',
+    bins=30,
+    kde=True,
+    color='blue'
+)
+
+# Add labels and title
+plt.title('Distribution of Titanic Ticket Fare')
+plt.xlabel('Fare')
+plt.ylabel('Number of Passengers')
+
+# Show plot
+plt.show()
