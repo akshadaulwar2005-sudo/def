@@ -1,0 +1,54 @@
+########## PR 3  Descriptive Statistics - Measures of Central Tendency and variability
+
+import pandas as pd
+import numpy as np
+
+# Load Iris Dataset
+df = pd.read_csv("iris_3.csv")
+
+# Display dataset
+print("First 5 Rows")
+print(df.head())
+
+# Dataset Information
+print("\nDataset Info")
+print(df.info())
+
+# Column names
+print("\nColumn Names")
+print(df.columns)
+
+# Grouped summary statistics
+
+grouped_stats = df.groupby('species')['sepal_length'].agg([
+    'mean',
+    'median',
+    'min',
+    'max',
+    'std'
+])
+
+print("\nGrouped Summary Statistics")
+print(grouped_stats)
+
+# Create list of numeric values for each species
+
+species_groups = df.groupby('species')['sepal_length'].apply(list)
+
+print("\nNumeric Values for Each Species")
+
+for species, values in species_groups.items():
+    print(f"\n{species}")
+    print(values)
+
+# Statistical details for each species
+
+species_list = df['species'].unique()
+
+for species in species_list:
+    
+    print(f"\nStatistics for {species}")
+    
+    species_data = df[df['species'] == species]
+    
+    print(species_data.describe())
